@@ -2,6 +2,30 @@ programa
 {
 	inclua biblioteca Util
 
+	funcao verificarInsercaoMatUsuario ()
+	{
+		inteiro quadra1[3][3], num=0, vet[3]
+		//num --> variável que representa o número inicial do quadrante
+		//quadra --> definição para o quadrante
+		para (inteiro i=0;i<3;i++){
+			escreva ("Número da linha do cubo: ", i+1, "\n")
+			para (inteiro j=0; j<3; j++){
+				escreva ("Por favor informe o número: ")
+				leia (quadra1[i][j])
+				//instrução de repetição para armazenar os números dentro dos quadrantes
+				
+					se (quadra1[i][j] >= num){
+						vet[j] = quadra1[i][j]
+					}senao se (quadra1[i][j] == quadra1[i][j-1]) {
+						escreva ("O número inserido já foi escrito anteriormente, informe outro!")
+						j--
+						//instrução para verificar se o número já não foi inserido antes
+					}
+			}
+		}
+	}
+
+
 	funcao preencheMat(inteiro mat[][], inteiro size){
 		inteiro aux, temValor = 0
 		para(inteiro i = 0; i < size; i++){
@@ -69,7 +93,7 @@ programa
  * Esta seção do arquivo guarda informações do Portugol Studio.
  * Você pode apagá-la se estiver utilizando outro editor.
  * 
- * @POSICAO-CURSOR = 354; 
+ * @POSICAO-CURSOR = 72; 
  * @PONTOS-DE-PARADA = ;
  * @SIMBOLOS-INSPECIONADOS = ;
  * @FILTRO-ARVORE-TIPOS-DE-DADO = inteiro, real, logico, cadeia, caracter, vazio;
