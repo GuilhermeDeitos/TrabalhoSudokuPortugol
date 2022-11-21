@@ -2,34 +2,30 @@ programa
 {
 	inclua biblioteca Util
 
-
-	
-
-
-	funcao preencheMat(inteiro mat[][], inteiro size){
-		inteiro aux, temValor = 0
+	funcao preencheMat(inteiro mat[][], inteiro size){ //Preencher a matriz
+		inteiro aux  
+		logico temValor = falso 
 		para(inteiro i = 0; i < size; i++){
 			para(inteiro j = 0; j < size; j++){
-				aux = Util.sorteia(1, 4)
-				se(j == aux e temValor == 0){
+				aux = Util.sorteia(0, 3) //Gera um número aleatório para a coluna que receberá o numero random 
+				se(j == aux e temValor == falso){
 					mat[i][j] = Util.sorteia(1, 4)
-					temValor = 1
-				} 
+					temValor = verificaMatriz(mat, size, Util.sorteia(1, 4),i,j) //Verifica se a posição random pode receber o numero aleatório
+				}
 				
 			}
 		}
 	}
 	
-	funcao exibeMatriz(inteiro mat[][], inteiro size){
+	funcao exibeMatriz(inteiro mat[][], inteiro size){ 
 		escreva("X")
-		
 		para(inteiro j = 0; j < size; j++){
-				escreva("[",j,"]")
+				escreva("[",j,"]") //Cabeçalho
 				se(j == size-1){
 					escreva(" → Colunas \n")
 				} 
 			}
-		para(inteiro i = 0; i <= size; i++){
+		para(inteiro i = 0; i <= size; i++){ //Coluna de linhas
 			se(i == size){
 				escreva("↳ Linhas\n")
 				pare
@@ -43,7 +39,7 @@ programa
 					para(inteiro j = 0; j < size; j++){
 						 se(j == size-1){
 							escreva(" ",mat[i][j], "\n")
-						} senao se(j % 2 != 0){
+						} senao se(j % 2 != 0){ //Caso seja 2, coloca a | par separar os quadrantes
 							escreva(" ",mat[i][j],"|")
 						} senao se(j == 0){
 							escreva(mat[i][j]," ")
@@ -55,37 +51,52 @@ programa
 				}
 	}
 
-	funcao logico verificaMatriz(inteiro mat[][], inteiro size){
-		inteiro num[4]
+	funcao logico verificaMatriz(inteiro mat[][], inteiro size, inteiro num, inteiro linha, inteiro coluna){
+		logico ehValido = falso
+		inteiro matAux[2][2]
 		para (inteiro i=0;i < size;i++){
             para (inteiro j=0;j < size; j++){
-       		
+       		se (i == linha ou j == coluna){ 
+       			se(mat[i][j] == num){ //Verifica se o numero passado por parametro já existe na linha e coluna da matriz
+       				escreva("\nFalso -> Matriz [",i,"][",j,"] = ",mat[i][j])
+       				retorne falso
+       			}senao{
+       				escreva("\n Verdadeiro -> Matriz [",i,"][",j,"] = ",mat[i][j])
+       				ehValido = verdadeiro
+       			}
+       		}
             	
             }
 		}
-		retorne falso
+
+		retorne ehValido
 	}
 
 	funcao inserirValor(inteiro mat[][], inteiro size){
-		inteiro linha = 0, coluna = 0, aux
+		inteiro linha = 0, coluna = 0, aux 
 		logico ehValido = falso
 		faca{
 			escreva("Informe a linha: ")
 			leia(linha)					
 			escreva("Informe a coluna: ")
 			leia(coluna)
-			se((coluna > 0 e coluna <= 4) e (linha > 0 e linha <= 4)){
-				ehValido = verdadeiro
+			se((coluna >= 0 e coluna < 4) e (linha >= 0 e linha < 4)){
+				ehValido = verdadeiro //verifica se a linha tem um valor dentro dos parâmetros válidos
 			}		
 			se(ehValido == falso){
 				escreva("Valor inválido!\n")
 			} senao {
 				escreva("Informe o valor (1 até 4): ")
 				leia(aux)
-				se(aux > 1 e aux <= 4){
-					mat[linha][coluna] = aux
-					escreva(size)
-					ehValido = verificaMatriz(mat, size)
+				se(aux >= 1 e aux <= 4){
+					
+					
+					ehValido = verificaMatriz(mat, size, aux, linha, coluna)
+					se(ehValido){
+						mat[linha][coluna] = aux
+					} senao {
+						escreva("Valor inválido, verifique a linha, coluna e quadrante e insira novamente!\n")
+					}
 				}
 			}
 			
@@ -134,7 +145,7 @@ programa
  * Esta seção do arquivo guarda informações do Portugol Studio.
  * Você pode apagá-la se estiver utilizando outro editor.
  * 
- * @POSICAO-CURSOR = 2652; 
+ * @POSICAO-CURSOR = 2553; 
  * @PONTOS-DE-PARADA = ;
  * @SIMBOLOS-INSPECIONADOS = ;
  * @FILTRO-ARVORE-TIPOS-DE-DADO = inteiro, real, logico, cadeia, caracter, vazio;
