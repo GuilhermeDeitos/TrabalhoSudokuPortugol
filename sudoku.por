@@ -60,16 +60,57 @@ programa
        			se(mat[i][j] == num){ //Verifica se o numero passado por parametro já existe na linha e coluna da matriz
        				escreva("\nFalso -> Matriz [",i,"][",j,"] = ",mat[i][j])
        				retorne falso
-       			}senao{
-       				escreva("\n Verdadeiro -> Matriz [",i,"][",j,"] = ",mat[i][j])
-       				ehValido = verdadeiro
        			}
+       			ehValido = verdadeiro
        		}
             	
             }
 		}
 
+		se(ehValido){
+			
+			para(inteiro i=0; i < size; i++){
+					para(inteiro j=0; j < size; j++){
+						se(i < 2 e j < 2){
+							verificaQuadrante(matAux,mat[i][j],size, 1)
+						} senao se(i < 2 e ((j >= 2) e (j < 4))){
+							verificaQuadrante(matAux,mat[i][j],size, 2)
+						}senao se(((i >= 2) e (i < 4)) e j < 2){
+							verificaQuadrante(matAux,mat[i][j],size, 3)
+						}senao se(((i >= 2) e (i < 4)) e ((j >= 2) e (j < 4))){
+							verificaQuadrante(matAux,mat[i][j],size, 4)
+						}
+						
+					}
+				}
+			
+		}
+
 		retorne ehValido
+	}
+
+	funcao verificaQuadrante(inteiro matAux[][], inteiro valorMat, inteiro size, inteiro quadrante){
+		
+				escolha(quadrante){
+					caso 1:
+						para(inteiro i=0; i < size/2; i++){
+							para(inteiro j=0; j < size/2; j++){
+								matAux[i][j] = valorMat
+									}
+								}
+						pare
+					caso 2:
+						pare
+					caso 3:
+						pare
+					caso 4:
+						pare
+					caso contrario:
+						escreva("Quadrante inexistente\n")
+				}
+				
+		
+		exibeMatriz(matAux, size/2)
 	}
 
 	funcao inserirValor(inteiro mat[][], inteiro size){
@@ -145,7 +186,7 @@ programa
  * Esta seção do arquivo guarda informações do Portugol Studio.
  * Você pode apagá-la se estiver utilizando outro editor.
  * 
- * @POSICAO-CURSOR = 2553; 
+ * @POSICAO-CURSOR = 2739; 
  * @PONTOS-DE-PARADA = ;
  * @SIMBOLOS-INSPECIONADOS = ;
  * @FILTRO-ARVORE-TIPOS-DE-DADO = inteiro, real, logico, cadeia, caracter, vazio;
