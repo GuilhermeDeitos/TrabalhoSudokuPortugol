@@ -63,54 +63,77 @@ programa
        			}
        			ehValido = verdadeiro
        		}
-            	
             }
 		}
 
 		se(ehValido){
+			se(linha < 2 e coluna < 2){
+				ehValido =verificaQuadrante(num,mat,size, 1)
+			} senao se(linha < 2 e ((coluna >= 2) e (coluna < 4))){
+				ehValido =verificaQuadrante(num,mat,size, 2)
+			}senao se(((linha >= 2) e (linha < 4)) e coluna < 2){
+				ehValido =verificaQuadrante(num,mat,size, 3)
+			}senao se(((linha >= 2) e (linha < 4)) e ((coluna >= 2) e (coluna < 4))){
+				ehValido = verificaQuadrante(num,mat,size, 4)
+			}
 			
-			para(inteiro i=0; i < size; i++){
-					para(inteiro j=0; j < size; j++){
-						se(i < 2 e j < 2){
-							verificaQuadrante(matAux,mat[i][j],size, 1)
-						} senao se(i < 2 e ((j >= 2) e (j < 4))){
-							verificaQuadrante(matAux,mat[i][j],size, 2)
-						}senao se(((i >= 2) e (i < 4)) e j < 2){
-							verificaQuadrante(matAux,mat[i][j],size, 3)
-						}senao se(((i >= 2) e (i < 4)) e ((j >= 2) e (j < 4))){
-							verificaQuadrante(matAux,mat[i][j],size, 4)
-						}
-						
-					}
+				se(ehValido == falso){
+					retorne falso
 				}
-			
+		
 		}
-
 		retorne ehValido
 	}
 
-	funcao verificaQuadrante(inteiro matAux[][], inteiro valorMat, inteiro size, inteiro quadrante){
+	funcao logico verificaQuadrante(inteiro num, inteiro mat[][], inteiro size, inteiro quadrante){
+		inteiro linhaInicio = 0, linhaFim = 0, colunaInicio = 0,colunaFim = 0
+
+		logico ehValido = verdadeiro
+		se(quadrante == 1){
+			linhaInicio = 0
+			linhaFim = 2
+			colunaInicio = 0
+			colunaFim = 2
+		} senao se(quadrante == 2){
+			linhaInicio = 0
+			linhaFim = 2
+			colunaInicio = 2
+			colunaFim = 4
+		}senao se(quadrante == 3){
+			linhaInicio = 2
+			linhaFim = 4
+			colunaInicio = 0
+			colunaFim = 2
+		} senao se(quadrante == 4){
+			linhaInicio = 2
+			linhaFim = 4
+			colunaInicio = 2
+			colunaFim = 4
+		} 
+
+		para(inteiro i=linhaInicio; i < linhaFim; i++){
+			para(inteiro j=colunaInicio; j < colunaFim; j++){
+				se(mat[i][j] == num){
+					retorne falso
+				}	
+			}
+		}
+		retorne ehValido
 		
-				escolha(quadrante){
-					caso 1:
-						para(inteiro i=0; i < size/2; i++){
-							para(inteiro j=0; j < size/2; j++){
-								matAux[i][j] = valorMat
-									}
-								}
-						pare
-					caso 2:
-						pare
-					caso 3:
-						pare
-					caso 4:
-						pare
-					caso contrario:
-						escreva("Quadrante inexistente\n")
-				}
-				
+	}
+
+	funcao logico verificaSudokuCompleto(inteiro mat[][], inteiro size){
+		logico ehValido = verdadeiro
+		para (inteiro i=0;i < size;i++){
+            para (inteiro j=0;j < size; j++){
+			se(mat[i][j] == 0){
+				retorne falso
+			}
+            }
+         	}
+
+         	retorne ehValido
 		
-		exibeMatriz(matAux, size/2)
 	}
 
 	funcao inserirValor(inteiro mat[][], inteiro size){
@@ -130,8 +153,6 @@ programa
 				escreva("Informe o valor (1 até 4): ")
 				leia(aux)
 				se(aux >= 1 e aux <= 4){
-					
-					
 					ehValido = verificaMatriz(mat, size, aux, linha, coluna)
 					se(ehValido){
 						mat[linha][coluna] = aux
@@ -147,7 +168,8 @@ programa
 	funcao inicio()
 	{
 		const inteiro sudokuEasySize = 4
-		inteiro matSudoku[sudokuEasySize][sudokuEasySize], op, op2
+		inteiro matSudoku[sudokuEasySize][sudokuEasySize], op
+		logico completo = falso
 
 		escreva("=-=-=-=-=-=--=-=-=-=-=-=-= Sudoku Game =-=-=-=-=-=--=-=-=-=-=-=-=\n")
 		escreva("Escolha o modo de jogo\n[1] Facil\n[2] Dificil\n[0] Sair\n")
@@ -160,12 +182,16 @@ programa
 					limpa()
 					exibeMatriz(matSudoku, sudokuEasySize)
 					inserirValor(matSudoku, sudokuEasySize)
-					exibeMatriz(matSudoku, sudokuEasySize)
+					completo = verificaSudokuCompleto(matSudoku, sudokuEasySize)
 
-					escreva(" Deseja continuar inserindo?\n[0] Não\n[1] Sim\n")
-					leia(op2)
 					
-				}enquanto(op2 != 0)
+				}enquanto(completo != verdadeiro)
+
+				se(completo){
+					limpa()
+					exibeMatriz(matSudoku, sudokuEasySize)
+					escreva("PARABENS!!!!\nVocê acaba de completar o Sudoku\nDeveloped By: GuiDeitos, Nathan Oliboni, João Batista e Felipe Rocha\n")
+				}
 				
 				pare
 			caso 2:
@@ -186,7 +212,7 @@ programa
  * Esta seção do arquivo guarda informações do Portugol Studio.
  * Você pode apagá-la se estiver utilizando outro editor.
  * 
- * @POSICAO-CURSOR = 2739; 
+ * @POSICAO-CURSOR = 4957; 
  * @PONTOS-DE-PARADA = ;
  * @SIMBOLOS-INSPECIONADOS = ;
  * @FILTRO-ARVORE-TIPOS-DE-DADO = inteiro, real, logico, cadeia, caracter, vazio;
